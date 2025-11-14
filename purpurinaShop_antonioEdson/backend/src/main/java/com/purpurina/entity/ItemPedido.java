@@ -25,7 +25,7 @@ public class ItemPedido {
     @Column(name = "preco_unitario", precision = 12, scale = 2)
     private BigDecimal precoUnitario;
     
-    // Constructores
+    
     public ItemPedido() {}
     
     public ItemPedido(Pedido pedido, Produto produto, Integer quantidade, BigDecimal precoUnitario) {
@@ -35,7 +35,7 @@ public class ItemPedido {
         this.precoUnitario = precoUnitario;
     }
     
-    // Getters e Setters
+    
     public Long getId() {
         return id;
     }
@@ -76,7 +76,7 @@ public class ItemPedido {
         this.precoUnitario = precoUnitario;
     }
     
-    // Calcular subtotal
+    
     public BigDecimal getSubtotal() {
         if (precoUnitario == null || quantidade == null) {
             return BigDecimal.ZERO;

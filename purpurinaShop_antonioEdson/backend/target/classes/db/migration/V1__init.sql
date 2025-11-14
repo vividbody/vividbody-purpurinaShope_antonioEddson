@@ -1,4 +1,4 @@
--- Migration inicial: cria tabelas básicas para Cliente, Dependente, Produto, Pedido, ItemPedido, Pagamento
+
 
 CREATE TABLE cliente (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

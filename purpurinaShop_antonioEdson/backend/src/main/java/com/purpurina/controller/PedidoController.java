@@ -21,14 +21,14 @@ public class PedidoController {
     @Autowired
     private ClienteService clienteService;
     
-    // Listar todos os pedidos
+    
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("pedidos", pedidoService.listarTodos());
         return "pedidos/lista";
     }
     
-    // Ver detalhes de um pedido
+    
     @GetMapping("/{id}")
     public String detalhes(@PathVariable Long id, Model model) {
         Optional<Pedido> pedido = pedidoService.buscarPorId(id);
@@ -39,7 +39,7 @@ public class PedidoController {
         return "redirect:/pedidos";
     }
     
-    // Formulário novo pedido
+    
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("pedido", new Pedido());
@@ -48,14 +48,14 @@ public class PedidoController {
         return "pedidos/formulario";
     }
     
-    // Salvar novo pedido
+    
     @PostMapping
     public String salvar(@ModelAttribute Pedido pedido) {
         Pedido pedidoSalvo = pedidoService.salvar(pedido);
         return "redirect:/pedidos/" + pedidoSalvo.getId();
     }
     
-    // Formulário edição de pedido
+    
     @GetMapping("/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
         Optional<Pedido> pedido = pedidoService.buscarPorId(id);
@@ -68,14 +68,14 @@ public class PedidoController {
         return "redirect:/pedidos";
     }
     
-    // Atualizar pedido
+   
     @PostMapping("/{id}/atualizar")
     public String atualizar(@PathVariable Long id, @ModelAttribute Pedido pedido) {
         pedidoService.atualizar(id, pedido);
         return "redirect:/pedidos/" + id;
     }
     
-    // Deletar pedido
+    
     @GetMapping("/{id}/deletar")
     public String deletar(@PathVariable Long id) {
         pedidoService.deletar(id);
