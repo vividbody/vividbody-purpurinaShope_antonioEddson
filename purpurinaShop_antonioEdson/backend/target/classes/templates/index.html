@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PurpurinaShop — Sistema de Joalheria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 4px;
+            color: #333;
+        }
+        .status strong {
+            color: #667eea;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+            border-color: #5568d3;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border-color: #667eea;
+        }
+        .btn-secondary:hover {
+            background: #f0f4ff;
+            border-color: #5568d3;
+            color: #5568d3;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.9em;
+        }
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💎 PurpurinaShop</h1>
+        <p class="subtitle">Sistema de Gestão para Joalheria</p>
+
+        <div class="status">
+            <strong>✓ Status:</strong> Servidor rodando com sucesso
+            <span class="badge">Online</span>
+        </div>
+
+        <div class="status">
+            <strong>📊 Banco de Dados:</strong> H2 (em memória) — Flyway migrações aplicadas
+        </div>
+
+        <div class="status">
+            <strong>🗂️ Tabelas criadas:</strong> Cliente, Dependente, Produto, Pedido, ItemPedido, Pagamento
+        </div>
+
+        <div class="nav-buttons">
+            <a href="#clientes" class="btn btn-primary">👥 Clientes</a>
+            <a href="#produtos" class="btn btn-primary">💍 Produtos</a>
+            <a href="#pedidos" class="btn btn-primary">📦 Pedidos</a>
+            <a href="#docs" class="btn btn-secondary">📚 Documentação</a>
+        </div>
+
+        <div class="footer">
+            <p>Milestone 1 (US01–US04): 24/10/2025 — 14/11/2025</p>
+            <p>Em desenvolvimento com Spring Boot 3.1.4, Thymeleaf, JPA e Flyway.</p>
+        </div>
+    </div>
+</body>
+</html>

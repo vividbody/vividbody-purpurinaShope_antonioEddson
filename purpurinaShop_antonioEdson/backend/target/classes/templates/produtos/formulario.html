@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Produto — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 700px; margin: 30px auto; padding: 0 20px; }
+        form { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .btn { padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-salvar { background: #10b981; color: white; }
+        .btn-salvar:hover { background: #059669; }
+        .btn-cancelar { background: #6b7280; color: white; margin-left: 10px; }
+        .btn-cancelar:hover { background: #4b5563; }
+        h2 { color: #667eea; margin-bottom: 25px; }
+        .info { color: #666; font-size: 13px; margin-top: 4px; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        .section { margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; }
+        .section-title { font-weight: 600; color: #667eea; margin-bottom: 15px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Formulário de Produto</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/produtos" style="background: #5568d3;">Produtos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <form th:if="${produto.id == null}" method="POST" th:action="@{/produtos}" th:object="${produto}">
+            <h2>Novo Produto</h2>
+
+            <div class="form-group">
+                <label for="marca">Marca *</label>
+                <input type="text" id="marca" th:field="*{marca}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="metal">Metal *</label>
+                <select id="metal" th:field="*{metal}" required>
+                    <option value="">-- Selecione --</option>
+                    <option value="Ouro">Ouro</option>
+                    <option value="Prata">Prata</option>
+                    <option value="Ródio">Ródio</option>
+                    <option value="Platina">Platina</option>
+                    <option value="Cobre">Cobre</option>
+                    <option value="Bronze">Bronze</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💎 Gemas (até 5)</div>
+                <div class="form-group">
+                    <label for="gema1">Gema 1</label>
+                    <input type="text" id="gema1" th:field="*{gema1}" placeholder="Ex: Diamante, Rubi...">
+                </div>
+                <div class="form-group">
+                    <label for="gema2">Gema 2</label>
+                    <input type="text" id="gema2" th:field="*{gema2}" placeholder="Opcional">
+                </div>
+                <div class="form-group">
+                    <label for="gema3">Gema 3</label>
+                    <input type="text" id="gema3" th:field="*{gema3}" placeholder="Opcional">
+                </div>
+                <div class="form-group">
+                    <label for="gema4">Gema 4</label>
+                    <input type="text" id="gema4" th:field="*{gema4}" placeholder="Opcional">
+                </div>
+                <div class="form-group">
+                    <label for="gema5">Gema 5</label>
+                    <input type="text" id="gema5" th:field="*{gema5}" placeholder="Opcional">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">⚖️ Características</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="peso">Peso (g) *</label>
+                        <input type="number" id="peso" th:field="*{peso}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quilates">Quilates</label>
+                        <input type="number" id="quilates" th:field="*{quilates}" step="0.01" placeholder="Opcional">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dimensoes">Dimensões *</label>
+                    <input type="text" id="dimensoes" th:field="*{dimensoes}" placeholder="Ex: 10x5x3 (AxLxP em cm)" required>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💰 Preços</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="precoCusto">Preço Custo (R$) *</label>
+                        <input type="number" id="precoCusto" th:field="*{precoCusto}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="precoVenda">Preço Venda (R$) *</label>
+                        <input type="number" id="precoVenda" th:field="*{precoVenda}" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 25px;">
+                <button type="submit" class="btn btn-salvar">Salvar</button>
+                <a href="/produtos" class="btn btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+
+        <form th:if="${produto.id != null}" method="POST" th:action="@{/produtos/{id}/atualizar(id=${produto.id})}" th:object="${produto}">
+            <h2>Editar Produto</h2>
+
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" th:value="${produto.id}" disabled>
+                <p class="info">ID gerado automaticamente</p>
+            </div>
+
+            <div class="form-group">
+                <label for="marca">Marca *</label>
+                <input type="text" id="marca" th:field="*{marca}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="metal">Metal *</label>
+                <select id="metal" th:field="*{metal}" required>
+                    <option value="">-- Selecione --</option>
+                    <option value="Ouro">Ouro</option>
+                    <option value="Prata">Prata</option>
+                    <option value="Ródio">Ródio</option>
+                    <option value="Platina">Platina</option>
+                    <option value="Cobre">Cobre</option>
+                    <option value="Bronze">Bronze</option>
+                </select>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💎 Gemas (até 5)</div>
+                <div class="form-group">
+                    <label for="gema1">Gema 1</label>
+                    <input type="text" id="gema1" th:field="*{gema1}">
+                </div>
+                <div class="form-group">
+                    <label for="gema2">Gema 2</label>
+                    <input type="text" id="gema2" th:field="*{gema2}">
+                </div>
+                <div class="form-group">
+                    <label for="gema3">Gema 3</label>
+                    <input type="text" id="gema3" th:field="*{gema3}">
+                </div>
+                <div class="form-group">
+                    <label for="gema4">Gema 4</label>
+                    <input type="text" id="gema4" th:field="*{gema4}">
+                </div>
+                <div class="form-group">
+                    <label for="gema5">Gema 5</label>
+                    <input type="text" id="gema5" th:field="*{gema5}">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">⚖️ Características</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="peso">Peso (g) *</label>
+                        <input type="number" id="peso" th:field="*{peso}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quilates">Quilates</label>
+                        <input type="number" id="quilates" th:field="*{quilates}" step="0.01">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dimensoes">Dimensões *</label>
+                    <input type="text" id="dimensoes" th:field="*{dimensoes}" required>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💰 Preços</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="precoCusto">Preço Custo (R$) *</label>
+                        <input type="number" id="precoCusto" th:field="*{precoCusto}" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="precoVenda">Preço Venda (R$) *</label>
+                        <input type="number" id="precoVenda" th:field="*{precoVenda}" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 25px;">
+                <button type="submit" class="btn btn-salvar">Atualizar</button>
+                <a th:href="@{/produtos/{id}(id=${produto.id})}" class="btn btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

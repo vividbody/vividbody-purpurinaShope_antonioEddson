@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Pedido — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { color: #667eea; margin-bottom: 25px; }
+        .campo { margin-bottom: 20px; }
+        .label { font-weight: 600; color: #667eea; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .valor { color: #333; font-size: 16px; margin-top: 5px; }
+        .divider { border-top: 1px solid #eee; margin: 25px 0; }
+        .btn { padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 10px; margin-top: 20px; }
+        .btn-editar { background: #3b82f6; color: white; }
+        .btn-editar:hover { background: #2563eb; }
+        .btn-deletar { background: #ef4444; color: white; }
+        .btn-deletar:hover { background: #dc2626; }
+        .btn-voltar { background: #6b7280; color: white; }
+        .btn-voltar:hover { background: #4b5563; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+        .info-box { background: #f9fafb; padding: 15px; border-radius: 4px; }
+        .status { display: inline-block; padding: 6px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; }
+        .status-pendente { background: #fef3c7; color: #92400e; }
+        .status-confirmado { background: #dbeafe; color: #1e40af; }
+        .status-enviado { background: #e0e7ff; color: #3730a3; }
+        .status-entregue { background: #dcfce7; color: #166534; }
+        .status-cancelado { background: #fee2e2; color: #991b1b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { background: #f0f4ff; font-weight: 600; color: #667eea; }
+        .total-box { background: #f0f4ff; padding: 15px; border-radius: 4px; text-align: right; margin-top: 15px; }
+        .total-valor { font-size: 24px; font-weight: 600; color: #10b981; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Detalhes do Pedido</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/produtos">Produtos</a></li>
+            <li><a href="/pedidos" style="background: #5568d3;">Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Pedido #<span th:text="${pedido.id}"></span></h2>
+
+            <div class="row">
+                <div class="campo">
+                    <div class="label">ID do Pedido</div>
+                    <div class="valor" th:text="${pedido.id}"></div>
+                </div>
+
+                <div class="campo">
+                    <div class="label">Status</div>
+                    <div class="valor">
+                        <span th:class="'status status-' + ${pedido.status.toLowerCase()}"
+                              th:text="${pedido.status}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h3 style="color: #667eea; margin-bottom: 15px;">👤 Cliente</h3>
+            <div class="info-box">
+                <div class="row">
+                    <div class="campo">
+                        <div class="label">Nome</div>
+                        <div class="valor" th:text="${pedido.cliente != null ? pedido.cliente.nome : '-'}"></div>
+                    </div>
+                    <div class="campo">
+                        <div class="label">Email</div>
+                        <div class="valor" th:text="${pedido.cliente != null ? pedido.cliente.email : '-'}"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="campo">
+                        <div class="label">Telefone</div>
+                        <div class="valor" th:text="${pedido.cliente != null ? pedido.cliente.telefone : '-'}"></div>
+                    </div>
+                    <div class="campo">
+                        <div class="label">Cidade</div>
+                        <div class="valor" th:text="${pedido.cliente != null ? pedido.cliente.cidade : '-'}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h3 style="color: #667eea; margin-bottom: 15px;">📅 Datas</h3>
+            <div class="row">
+                <div class="campo">
+                    <div class="label">Data do Pedido</div>
+                    <div class="valor" th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm:ss')}"></div>
+                </div>
+                <div class="campo">
+                    <div class="label">Data de Criação</div>
+                    <div class="valor" th:text="${#temporals.format(pedido.dataCriacao, 'dd/MM/yyyy HH:mm:ss')}"></div>
+                </div>
+            </div>
+
+            <div class="divider" th:if="${pedido.observacoes != null}"></div>
+
+            <div th:if="${pedido.observacoes != null}">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📝 Observações</h3>
+                <div class="info-box">
+                    <div class="valor" th:text="${pedido.observacoes}" style="white-space: pre-wrap;"></div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h3 style="color: #667eea; margin-bottom: 15px;">📦 Itens do Pedido</h3>
+            
+            <div th:if="${pedido.itens.isEmpty()}" style="color: #999; padding: 20px; text-align: center;">
+                <p>Nenhum item neste pedido</p>
+            </div>
+
+            <table th:if="${!pedido.itens.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitário</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${pedido.itens}">
+                        <td th:text="${item.produto != null ? item.produto.marca : '-'}"></td>
+                        <td th:text="${item.quantidade}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(item.precoUnitario, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td style="font-weight: 600;" th:text="${'R$ ' + #numbers.formatDecimal(item.getSubtotal(), 1, 'COMMA', 2, 'POINT')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total-box">
+                <div class="label" style="text-align: right; margin-bottom: 10px;">Total do Pedido:</div>
+                <div class="total-valor" th:text="${'R$ ' + #numbers.formatDecimal(pedido.getTotal(), 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+
+            <div>
+                <a th:href="@{/pedidos/{id}/editar(id=${pedido.id})}" class="btn btn-editar">✏️ Editar</a>
+                <a th:href="@{/pedidos/{id}/deletar(id=${pedido.id})}" class="btn btn-deletar" onclick="return confirm('Tem certeza que deseja deletar este pedido?')">🗑️ Deletar</a>
+                <a href="/pedidos" class="btn btn-voltar">← Voltar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

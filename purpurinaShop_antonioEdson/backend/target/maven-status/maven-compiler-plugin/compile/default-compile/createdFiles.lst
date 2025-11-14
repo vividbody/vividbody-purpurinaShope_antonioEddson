@@ -1,0 +1,17 @@
+com\purpurina\controller\HomeController.class
+com\purpurina\repository\ItemPedidoRepository.class
+com\purpurina\repository\ClienteRepository.class
+com\purpurina\entity\Produto.class
+com\purpurina\entity\Cliente.class
+com\purpurina\entity\Pedido.class
+com\purpurina\service\ItemPedidoService.class
+com\purpurina\controller\ClienteController.class
+com\purpurina\service\PedidoService.class
+com\purpurina\controller\PedidoController.class
+com\purpurina\repository\PedidoRepository.class
+com\purpurina\entity\ItemPedido.class
+com\purpurina\PurpurinaApplication.class
+com\purpurina\repository\ProdutoRepository.class
+com\purpurina\controller\ProdutoController.class
+com\purpurina\service\ProdutoService.class
+com\purpurina\service\ClienteService.class

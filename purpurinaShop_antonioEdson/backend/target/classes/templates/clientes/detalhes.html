@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cliente — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 600px; margin: 30px auto; padding: 0 20px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { color: #667eea; margin-bottom: 25px; }
+        .campo { margin-bottom: 20px; }
+        .label { font-weight: 600; color: #667eea; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .valor { color: #333; font-size: 16px; margin-top: 5px; }
+        .divider { border-top: 1px solid #eee; margin: 25px 0; }
+        .btn { padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 10px; margin-top: 20px; }
+        .btn-editar { background: #3b82f6; color: white; }
+        .btn-editar:hover { background: #2563eb; }
+        .btn-deletar { background: #ef4444; color: white; }
+        .btn-deletar:hover { background: #dc2626; }
+        .btn-voltar { background: #6b7280; color: white; }
+        .btn-voltar:hover { background: #4b5563; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        .info-geral { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .info-geral { grid-template-columns: 1fr; } }
+        .endereco { background: #f9fafb; padding: 15px; border-radius: 4px; }
+        .endereco .label { display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Detalhes do Cliente</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes" style="background: #5568d3;">Clientes</a></li>
+            <li><a href="/produtos">Produtos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2 th:text="${cliente.nome}"></h2>
+
+            <div class="info-geral">
+                <div class="campo">
+                    <div class="label">ID</div>
+                    <div class="valor" th:text="${cliente.id}"></div>
+                </div>
+
+                <div class="campo">
+                    <div class="label">Gênero</div>
+                    <div class="valor" th:text="${cliente.genero}"></div>
+                </div>
+
+                <div class="campo">
+                    <div class="label">Email</div>
+                    <div class="valor" th:text="${cliente.email}"></div>
+                </div>
+
+                <div class="campo">
+                    <div class="label">Telefone</div>
+                    <div class="valor" th:text="${cliente.telefone}"></div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h3 style="color: #667eea; margin-bottom: 15px;">📍 Endereço</h3>
+            <div class="endereco">
+                <div class="campo">
+                    <div class="label">Rua</div>
+                    <div class="valor" th:text="${cliente.rua}"></div>
+                </div>
+                <div class="campo">
+                    <div class="label">Número</div>
+                    <div class="valor" th:text="${cliente.numero}"></div>
+                </div>
+                <div class="campo">
+                    <div class="label">Bairro</div>
+                    <div class="valor" th:text="${cliente.bairro}"></div>
+                </div>
+                <div class="campo">
+                    <div class="label">Cidade</div>
+                    <div class="valor" th:text="${cliente.cidade}"></div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="campo">
+                <div class="label">Data de Cadastro</div>
+                <div class="valor" th:text="${#temporals.format(cliente.dataCriacao, 'dd/MM/yyyy HH:mm:ss')}"></div>
+            </div>
+
+            <div>
+                <a th:href="@{/clientes/{id}/editar(id=${cliente.id})}" class="btn btn-editar">✏️ Editar</a>
+                <a th:href="@{/clientes/{id}/deletar(id=${cliente.id})}" class="btn btn-deletar" onclick="return confirm('Tem certeza que deseja deletar este cliente?')">🗑️ Deletar</a>
+                <a href="/clientes" class="btn btn-voltar">← Voltar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

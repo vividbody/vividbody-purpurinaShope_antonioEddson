@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .btn-novo { background: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
+        .btn-novo:hover { background: #059669; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        thead { background: #f0f4ff; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { font-weight: 600; color: #667eea; }
+        .btn { padding: 6px 12px; margin: 0 2px; text-decoration: none; border-radius: 4px; display: inline-block; }
+        .btn-editar { background: #3b82f6; color: white; }
+        .btn-editar:hover { background: #2563eb; }
+        .btn-deletar { background: #ef4444; color: white; }
+        .btn-deletar:hover { background: #dc2626; }
+        .btn-ver { background: #8b5cf6; color: white; }
+        .btn-ver:hover { background: #7c3aed; }
+        .vazio { text-align: center; color: #999; padding: 40px; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        .status { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .status-pendente { background: #fef3c7; color: #92400e; }
+        .status-confirmado { background: #dbeafe; color: #1e40af; }
+        .status-enviado { background: #e0e7ff; color: #3730a3; }
+        .status-entregue { background: #dcfce7; color: #166534; }
+        .status-cancelado { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Gestão de Pedidos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/produtos">Produtos</a></li>
+            <li><a href="/pedidos" style="background: #5568d3;">Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>📦 Lista de Pedidos</h2>
+        <a href="/pedidos/novo" class="btn-novo">+ Novo Pedido</a>
+
+        <div th:if="${pedidos.isEmpty()}" class="vazio">
+            <p>Nenhum pedido cadastrado.</p>
+            <a href="/pedidos/novo" class="btn-novo">Crie um pedido agora</a>
+        </div>
+
+        <table th:if="${!pedidos.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.id}"></td>
+                    <td th:text="${pedido.cliente != null ? pedido.cliente.nome : '-'}"></td>
+                    <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td>
+                        <span th:class="'status status-' + ${pedido.status.toLowerCase()}"
+                              th:text="${pedido.status}"></span>
+                    </td>
+                    <td style="font-weight: 600; color: #10b981;" th:text="${'R$ ' + #numbers.formatDecimal(pedido.getTotal(), 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>
+                        <a th:href="@{/pedidos/{id}(id=${pedido.id})}" class="btn btn-ver">Ver</a>
+                        <a th:href="@{/pedidos/{id}/editar(id=${pedido.id})}" class="btn btn-editar">Editar</a>
+                        <a th:href="@{/pedidos/{id}/deletar(id=${pedido.id})}" class="btn btn-deletar" onclick="return confirm('Tem certeza?')">Deletar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .btn-novo { background: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
+        .btn-novo:hover { background: #059669; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        thead { background: #f0f4ff; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { font-weight: 600; color: #667eea; }
+        .btn { padding: 6px 12px; margin: 0 2px; text-decoration: none; border-radius: 4px; display: inline-block; }
+        .btn-editar { background: #3b82f6; color: white; }
+        .btn-editar:hover { background: #2563eb; }
+        .btn-deletar { background: #ef4444; color: white; }
+        .btn-deletar:hover { background: #dc2626; }
+        .btn-ver { background: #8b5cf6; color: white; }
+        .btn-ver:hover { background: #7c3aed; }
+        .vazio { text-align: center; color: #999; padding: 40px; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        .preco { font-weight: 600; color: #10b981; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Gestão de Produtos (Joias)</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/produtos" style="background: #5568d3;">Produtos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>💍 Lista de Produtos</h2>
+        <a href="/produtos/novo" class="btn-novo">+ Novo Produto</a>
+
+        <div th:if="${produtos.isEmpty()}" class="vazio">
+            <p>Nenhum produto cadastrado.</p>
+            <a href="/produtos/novo" class="btn-novo">Cadastre um produto agora</a>
+        </div>
+
+        <table th:if="${!produtos.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Marca</th>
+                    <th>Metal</th>
+                    <th>Quilates</th>
+                    <th>Peso (g)</th>
+                    <th>Preço Venda</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="produto : ${produtos}">
+                    <td th:text="${produto.id}"></td>
+                    <td th:text="${produto.marca}"></td>
+                    <td th:text="${produto.metal}"></td>
+                    <td th:text="${produto.quilates}"></td>
+                    <td th:text="${produto.peso}"></td>
+                    <td class="preco" th:text="${'R$ ' + #numbers.formatDecimal(produto.precoVenda, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>
+                        <a th:href="@{/produtos/{id}(id=${produto.id})}" class="btn btn-ver">Ver</a>
+                        <a th:href="@{/produtos/{id}/editar(id=${produto.id})}" class="btn btn-editar">Editar</a>
+                        <a th:href="@{/produtos/{id}/deletar(id=${produto.id})}" class="btn btn-deletar" onclick="return confirm('Tem certeza?')">Deletar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

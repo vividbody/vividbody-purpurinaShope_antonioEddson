@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido — PurpurinaShop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        header { background: #667eea; color: white; padding: 20px; text-align: center; }
+        .container { max-width: 700px; margin: 30px auto; padding: 0 20px; }
+        form { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .btn { padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-salvar { background: #10b981; color: white; }
+        .btn-salvar:hover { background: #059669; }
+        .btn-cancelar { background: #6b7280; color: white; margin-left: 10px; }
+        .btn-cancelar:hover { background: #4b5563; }
+        h2 { color: #667eea; margin-bottom: 25px; }
+        .info { color: #666; font-size: 13px; margin-top: 4px; }
+        nav { background: #667eea; padding: 0; }
+        nav ul { list-style: none; display: flex; }
+        nav li { margin: 0; }
+        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        nav a:hover { background: #5568d3; }
+        textarea { resize: vertical; min-height: 100px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>💎 PurpurinaShop</h1>
+        <p>Formulário de Pedido</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/clientes">Clientes</a></li>
+            <li><a href="/produtos">Produtos</a></li>
+            <li><a href="/pedidos" style="background: #5568d3;">Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <form th:if="${pedido.id == null}" method="POST" th:action="@{/pedidos}" th:object="${pedido}">
+            <h2>Novo Pedido</h2>
+
+            <div class="form-group">
+                <label for="cliente">Cliente *</label>
+                <select id="cliente" required>
+                    <option value="">-- Selecione um cliente --</option>
+                    <option th:each="cliente : ${clientes}" 
+                            th:value="${cliente.id}"
+                            th:text="${cliente.nome}"></option>
+                </select>
+                <input type="hidden" name="cliente.id" id="clienteId" th:field="*{cliente.id}">
+                <p class="info">Selecione o cliente para este pedido</p>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status *</label>
+                <select id="status" th:field="*{status}" required>
+                    <option value="">-- Selecione um status --</option>
+                    <option th:each="est : ${estatuses}" th:value="${est}" th:text="${est}"></option>
+                </select>
+                <p class="info">Estado atual do pedido</p>
+            </div>
+
+            <div class="form-group">
+                <label for="observacoes">Observações</label>
+                <textarea id="observacoes" th:field="*{observacoes}" placeholder="Adicione observações sobre o pedido..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-salvar">Salvar Pedido</button>
+                <a href="/pedidos" class="btn btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+
+        <form th:if="${pedido.id != null}" method="POST" th:action="@{/pedidos/{id}/atualizar(id=${pedido.id})}" th:object="${pedido}">
+            <h2>Editar Pedido</h2>
+
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" th:value="${pedido.id}" disabled>
+                <p class="info">ID gerado automaticamente</p>
+            </div>
+
+            <div class="form-group">
+                <label for="cliente">Cliente *</label>
+                <select id="cliente" required>
+                    <option value="">-- Selecione um cliente --</option>
+                    <option th:each="cliente : ${clientes}" 
+                            th:value="${cliente.id}"
+                            th:text="${cliente.nome}"
+                            th:selected="${pedido.cliente.id == cliente.id}"></option>
+                </select>
+                <input type="hidden" name="cliente.id" id="clienteId" th:field="*{cliente.id}">
+                <p class="info">Selecione o cliente para este pedido</p>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status *</label>
+                <select id="status" th:field="*{status}" required>
+                    <option value="">-- Selecione um status --</option>
+                    <option th:each="est : ${estatuses}" 
+                            th:value="${est}" 
+                            th:text="${est}"
+                            th:selected="${pedido.status == est}"></option>
+                </select>
+                <p class="info">Estado atual do pedido</p>
+            </div>
+
+            <div class="form-group">
+                <label for="observacoes">Observações</label>
+                <textarea id="observacoes" th:field="*{observacoes}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-salvar">Atualizar Pedido</button>
+                <a th:href="@{/pedidos/{id}(id=${pedido.id})}" class="btn btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Sincronizar select com input hidden para cliente
+        document.getElementById('cliente')?.addEventListener('change', function() {
+            document.getElementById('clienteId').value = this.value;
+        });
+    </script>
+</body>
+</html>
