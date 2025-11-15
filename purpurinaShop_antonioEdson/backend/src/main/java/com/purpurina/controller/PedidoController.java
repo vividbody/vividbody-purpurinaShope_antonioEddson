@@ -1,6 +1,5 @@
 package com.purpurina.controller;
 
-import com.purpurina.entity.Cliente;
 import com.purpurina.entity.Pedido;
 import com.purpurina.service.ClienteService;
 import com.purpurina.service.PedidoService;
