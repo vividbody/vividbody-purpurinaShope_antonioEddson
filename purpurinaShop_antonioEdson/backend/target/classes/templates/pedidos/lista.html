@@ -6,34 +6,70 @@
     <title>Pedidos — PurpurinaShop</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-        header { background: #667eea; color: white; padding: 20px; text-align: center; }
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .btn-novo { background: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
-        .btn-novo:hover { background: #059669; }
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        thead { background: #f0f4ff; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { font-weight: 600; color: #667eea; }
-        .btn { padding: 6px 12px; margin: 0 2px; text-decoration: none; border-radius: 4px; display: inline-block; }
-        .btn-editar { background: #3b82f6; color: white; }
-        .btn-editar:hover { background: #2563eb; }
-        .btn-deletar { background: #ef4444; color: white; }
-        .btn-deletar:hover { background: #dc2626; }
-        .btn-ver { background: #8b5cf6; color: white; }
-        .btn-ver:hover { background: #7c3aed; }
-        .vazio { text-align: center; color: #999; padding: 40px; }
-        nav { background: #667eea; padding: 0; }
-        nav ul { list-style: none; display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3); animation: slideIn 0.5s ease; }
+        header h1 { font-size: 2.5em; margin-bottom: 5px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        
+        nav { background: rgba(102, 126, 234, 0.95); backdrop-filter: blur(10px); padding: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; }
         nav li { margin: 0; }
-        nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
-        nav a:hover { background: #5568d3; }
-        .status { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-        .status-pendente { background: #fef3c7; color: #92400e; }
-        .status-confirmado { background: #dbeafe; color: #1e40af; }
-        .status-enviado { background: #e0e7ff; color: #3730a3; }
-        .status-entregue { background: #dcfce7; color: #166534; }
-        .status-cancelado { background: #fee2e2; color: #991b1b; }
+        nav a { display: block; color: white; padding: 15px 25px; text-decoration: none; transition: all 0.3s ease; font-weight: 500; }
+        nav a:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        nav a.active { background: #5568d3; font-weight: 700; }
+        
+        .container { max-width: 1400px; margin: 30px auto; padding: 0 20px; animation: fadeIn 0.6s ease; }
+        
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .header-section h2 { color: #333; font-size: 2em; }
+        
+        .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border: 2px solid #e0e7ff; background: white; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; font-size: 0.9em; }
+        .filter-btn:hover { border-color: #667eea; background: #f0f4ff; }
+        .filter-btn.active { background: #667eea; color: white; border-color: #667eea; }
+        
+        .search-box { display: flex; gap: 10px; flex: 1; max-width: 400px; }
+        .search-input { flex: 1; padding: 12px 20px; border: 2px solid #e0e7ff; border-radius: 8px; font-size: 1em; transition: all 0.3s ease; }
+        .search-input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        
+        .btn-novo { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; }
+        .btn-novo:hover { background: linear-gradient(135deg, #059669 0%, #047857 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+        
+        .stats-bar { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 2em; font-weight: 700; color: #667eea; }
+        .stat-label { font-size: 0.9em; color: #666; margin-top: 5px; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 12px; overflow: hidden; }
+        thead { background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        th { font-weight: 700; color: #667eea; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
+        tbody tr { transition: all 0.3s ease; cursor: pointer; }
+        tbody tr:hover { background: #f8f9ff; transform: scale(1.01); box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1); }
+        
+        .btn { padding: 8px 16px; margin: 0 4px; text-decoration: none; border-radius: 6px; display: inline-block; font-size: 0.85em; font-weight: 600; transition: all 0.3s ease; }
+        .btn-editar { background: #3b82f6; color: white; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); }
+        .btn-editar:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+        .btn-deletar { background: #ef4444; color: white; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); }
+        .btn-deletar:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+        .btn-ver { background: #8b5cf6; color: white; box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3); }
+        .btn-ver:hover { background: #7c3aed; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); }
+        
+        .vazio { text-align: center; color: #999; padding: 60px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .vazio-icon { font-size: 4em; margin-bottom: 20px; opacity: 0.5; }
+        
+        .status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; animation: statusPulse 2s infinite; }
+        .status-pendente { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); }
+        .status-confirmado { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); }
+        .status-enviado { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #3730a3; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); }
+        .status-entregue { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #166534; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3); }
+        .status-cancelado { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #991b1b; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3); }
+        
+        .valor-total { font-weight: 700; color: #10b981; font-size: 1.1em; }
     </style>
 </head>
 <body>
@@ -44,51 +80,120 @@
 
     <nav>
         <ul>
-            <li><a href="/">Início</a></li>
-            <li><a href="/clientes">Clientes</a></li>
-            <li><a href="/produtos">Produtos</a></li>
-            <li><a href="/pedidos" style="background: #5568d3;">Pedidos</a></li>
+            <li><a href="/">🏠 Início</a></li>
+            <li><a href="/clientes">👥 Clientes</a></li>
+            <li><a href="/produtos">💍 Produtos</a></li>
+            <li><a href="/pedidos" class="active">📦 Pedidos</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <h2>📦 Lista de Pedidos</h2>
-        <a href="/pedidos/novo" class="btn-novo">+ Novo Pedido</a>
-
-        <div th:if="${pedidos.isEmpty()}" class="vazio">
-            <p>Nenhum pedido cadastrado.</p>
-            <a href="/pedidos/novo" class="btn-novo">Crie um pedido agora</a>
+        <div class="stats-bar" th:if="${!pedidos.isEmpty()}">
+            <div class="stat-item">
+                <div class="stat-value" th:text="${pedidos.size()}">0</div>
+                <div class="stat-label">Total de Pedidos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" th:text="${'R$ ' + #numbers.formatDecimal(pedidos.stream().mapToDouble(p -> p.getTotal()).sum(), 1, 'COMMA', 2, 'POINT')}">R$ 0</div>
+                <div class="stat-label">Valor Total</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" th:text="${'R$ ' + #numbers.formatDecimal(pedidos.stream().mapToDouble(p -> p.getTotal()).average().orElse(0), 1, 'COMMA', 2, 'POINT')}">R$ 0</div>
+                <div class="stat-label">Ticket Médio</div>
+            </div>
+        </div>
+        
+        <div class="header-section">
+            <h2>📦 Gerenciamento de Pedidos</h2>
+            <div class="filter-buttons" th:if="${!pedidos.isEmpty()}">
+                <button class="filter-btn active" onclick="filtrarStatus('todos')">Todos</button>
+                <button class="filter-btn" onclick="filtrarStatus('pendente')">🟡 Pendente</button>
+                <button class="filter-btn" onclick="filtrarStatus('confirmado')">🔵 Confirmado</button>
+                <button class="filter-btn" onclick="filtrarStatus('enviado')">🟣 Enviado</button>
+                <button class="filter-btn" onclick="filtrarStatus('entregue')">🟢 Entregue</button>
+                <button class="filter-btn" onclick="filtrarStatus('cancelado')">🔴 Cancelado</button>
+            </div>
+            <a href="/pedidos/novo" class="btn-novo">
+                <span style="font-size: 1.2em;">+</span> Novo Pedido
+            </a>
         </div>
 
-        <table th:if="${!pedidos.isEmpty()}">
+        <div th:if="${pedidos.isEmpty()}" class="vazio">
+            <div class="vazio-icon">📦</div>
+            <h3 style="color: #666; margin-bottom: 15px;">Nenhum pedido cadastrado</h3>
+            <p style="margin-bottom: 20px;">Comece criando pedidos para seus clientes</p>
+            <a href="/pedidos/novo" class="btn-novo">
+                <span>+</span> Criar Primeiro Pedido
+            </a>
+        </div>
+
+        <table th:if="${!pedidos.isEmpty()}" id="pedidosTable">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
-                    <th>Data</th>
+                    <th>Data do Pedido</th>
                     <th>Status</th>
-                    <th>Total</th>
-                    <th>Ações</th>
+                    <th>Valor Total</th>
+                    <th style="text-align: center;">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="pedido : ${pedidos}">
-                    <td th:text="${pedido.id}"></td>
-                    <td th:text="${pedido.cliente != null ? pedido.cliente.nome : '-'}"></td>
-                    <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
+                <tr th:each="pedido : ${pedidos}" th:attr="data-status=${pedido.status.toLowerCase()}">
+                    <td><strong th:text="${'#' + pedido.id}"></strong></td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.3em;">👤</span>
+                            <span th:text="${pedido.cliente != null ? pedido.cliente.nome : 'N/A'}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <div th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy')}" style="font-weight: 600;"></div>
+                            <div th:text="${#temporals.format(pedido.dataPedido, 'HH:mm')}" style="font-size: 0.85em; color: #888;"></div>
+                        </div>
+                    </td>
                     <td>
                         <span th:class="'status status-' + ${pedido.status.toLowerCase()}"
                               th:text="${pedido.status}"></span>
                     </td>
-                    <td style="font-weight: 600; color: #10b981;" th:text="${'R$ ' + #numbers.formatDecimal(pedido.getTotal(), 1, 'COMMA', 2, 'POINT')}"></td>
-                    <td>
-                        <a th:href="@{/pedidos/{id}(id=${pedido.id})}" class="btn btn-ver">Ver</a>
-                        <a th:href="@{/pedidos/{id}/editar(id=${pedido.id})}" class="btn btn-editar">Editar</a>
-                        <a th:href="@{/pedidos/{id}/deletar(id=${pedido.id})}" class="btn btn-deletar" onclick="return confirm('Tem certeza?')">Deletar</a>
+                    <td class="valor-total" th:text="${'R$ ' + #numbers.formatDecimal(pedido.getTotal(), 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td style="text-align: center;">
+                        <a th:href="@{/pedidos/{id}(id=${pedido.id})}" class="btn btn-ver" title="Ver detalhes">👁️</a>
+                        <a th:href="@{/pedidos/{id}/editar(id=${pedido.id})}" class="btn btn-editar" title="Editar">✏️</a>
+                        <a th:href="@{/pedidos/{id}/deletar(id=${pedido.id})}" class="btn btn-deletar" 
+                           onclick="return confirm('⚠️ Deseja realmente excluir este pedido?')" title="Deletar">🗑️</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    
+    <script>
+        function filtrarStatus(status) {
+            const rows = document.querySelectorAll('#pedidosTable tbody tr');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Atualiza botões ativos
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            rows.forEach(row => {
+                if (status === 'todos') {
+                    row.style.display = '';
+                } else {
+                    const rowStatus = row.getAttribute('data-status');
+                    row.style.display = rowStatus === status ? '' : 'none';
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animation = `fadeIn 0.5s ease ${index * 0.05}s both`;
+            });
+        });
+    </script>
 </body>
 </html>
