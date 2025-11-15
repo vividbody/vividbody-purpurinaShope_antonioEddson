@@ -12,12 +12,12 @@
 
 ```
 Frontend:        Thymeleaf + HTML5 + CSS3 + JavaScript
-Backend:         Spring Boot 3.1.4 + Spring Data JPA
+Backend:         Spring Boot 3.2.12 + Spring Data JPA
 Database:        H2 In-Memory + Flyway Migrations
-ORM:             Hibernate 6.2.9
-Build Tool:      Maven 3.9.4
-Runtime:         Java 17.0.16 (Temurin)
-Server:          Apache Tomcat (embedded)
+ORM:             Hibernate 6.4.10
+Build Tool:      Maven 3.9.6 (Maven Wrapper incluído)
+Runtime:         Java 21.0.5 LTS (Temurin/Adoptium)
+Server:          Apache Tomcat 10.1.33 (embedded)
 ```
 
 ## Estrutura de Diretórios
